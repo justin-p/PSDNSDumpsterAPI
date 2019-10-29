@@ -21,15 +21,39 @@ Function Get-DNSD {
         }
         $FunctionName = $MyInvocation.MyCommand.Name
         Write-Verbose "$($FunctionName) - Begin."
-        $out=@()
+        Try {
+            Try {
+                $out=@()
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
     Process {
-        ForEach ($Domain in $Domains) {
-            $Out += New-DNSDSession -domain $Domain | Invoke-DNSDDomainInfo | Parse-DNSDDomainInfo
+        Try {
+            Try {
+                ForEach ($Domain in $Domains) {
+                    $Out += New-DNSDSession -domain $Domain | Invoke-DNSDDomainInfo | Parse-DNSDDomainInfo
+                }
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     }
     End {
         Write-Verbose "$($FunctionName) - End."
-        Return $out
+        Try {
+            Try {
+                Return $out
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
 }

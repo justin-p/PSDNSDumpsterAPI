@@ -15,16 +15,43 @@ function %%FunctionName%% {
     [CmdletBinding()]
     param(
     )
-    begin {
+    Begin {
         if ($script:ThisModuleLoaded -eq $true) {
             Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
         }
         $FunctionName = $MyInvocation.MyCommand.Name
         Write-Verbose "$($FunctionName) - Begin."
+        Try {
+            Try {
+
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
-    process {
+    Process {
+        Try {
+            Try {
+
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
-    end {
+    End {
         Write-Verbose "$($FunctionName) - End."
+        Try {
+            Try {
+
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
 }
