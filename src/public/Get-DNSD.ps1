@@ -1,30 +1,35 @@
-function %%FunctionName%% {
+Function Get-DNSD {
     <#
     .SYNOPSIS
     TBD
     .DESCRIPTION
     TBD
     .LINK
-    %%ModuleWebsite%%
+
     .EXAMPLE
     TBD
     .NOTES
-    Author: %%ModuleAuthor%%
-    #>
 
+    #>
     [CmdletBinding()]
-    param(
+    Param(
+        [Array]$Domains
     )
-    begin {
+    Begin {
         if ($script:ThisModuleLoaded -eq $true) {
             Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
         }
         $FunctionName = $MyInvocation.MyCommand.Name
         Write-Verbose "$($FunctionName) - Begin."
+        $out=@()
     }
-    process {
+    Process {
+        ForEach ($Domain in $Domains) {
+            $Out += New-DNSDSession -domain $Domain | Invoke-DNSDDomainInfo | Parse-DNSDDomainInfo
+        }
     }
-    end {
+    End {
         Write-Verbose "$($FunctionName) - End."
+        Return $out
     }
 }
