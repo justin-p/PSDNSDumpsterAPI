@@ -13,24 +13,26 @@ Function New-DNSDSession {
     .NOTES
 
     #>
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param (
         $Domain
     )
     Begin {
-        if ($script:ThisModuleLoaded -eq $true) {
-            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
-        }
-        $FunctionName = $MyInvocation.MyCommand.Name
-        Write-Verbose "$($FunctionName) - Begin."
-        Try {
-            Try {
-                $login = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -SessionVariable session
-            } Catch {
-                Write-Error "$($FunctionName) - Unable to create session to DNSDumpster.com - $PSItem"
+        if ($PSCmdlet.ShouldProcess("Creating session to dnsdumpster.com")) {
+            if ($script:ThisModuleLoaded -eq $true) {
+                Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
             }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
+            $FunctionName = $MyInvocation.MyCommand.Name
+            Write-Verbose "$($FunctionName) - Begin."
+            Try {
+                Try {
+                    $login = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -SessionVariable session
+                } Catch {
+                    Write-Error "$($FunctionName) - Unable to create session to DNSDumpster.com - $PSItem"
+                }
+            } Catch {
+                $PSCmdlet.ThrowTerminatingError($PSItem)
+            }
         }
     }
     Process {
