@@ -49,12 +49,6 @@ function ConvertFrom-DNSDDomainInfo {
                 $MXObject   = @()
                 $TXTObject  = @()
                 $HostObject = @()
-                Write-Verbose "$($FunctionName) - Extract the tables out of the web request"
-                $tables   = @($ScanResults.ParsedHtml.getElementsByTagName("TABLE"))
-                $DNSRows  = $($tables[0]).Rows
-                $MXRows   = $($tables[1]).Rows
-                $TXTRows  = $($tables[2]).Rows
-                $HostRows = $($tables[3]).Rows
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
@@ -65,6 +59,12 @@ function ConvertFrom-DNSDDomainInfo {
     } Process {
         Try {
             Try {
+                Write-Verbose "$($FunctionName) - Extract the tables out of the web request"
+                $tables   = @($ScanResults.ParsedHtml.getElementsByTagName("TABLE"))
+                $DNSRows  = $($tables[0]).Rows
+                $MXRows   = $($tables[1]).Rows
+                $TXTRows  = $($tables[2]).Rows
+                $HostRows = $($tables[3]).Rows
                 Write-Verbose "$($FunctionName) - Go through all of the rows in the tables"
                 ForEach ($row in $DNSRows) {
                     $cells = @($row.Cells)
