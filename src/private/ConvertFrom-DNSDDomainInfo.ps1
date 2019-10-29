@@ -1,8 +1,12 @@
-function Parse-DNSDDomainInfo {
+function ConvertFrom-DNSDDomainInfo {
 <#
     .SYNOPSIS
     TBD
     .DESCRIPTION
+    TBD
+    .PARAMETER Domain
+    TBD
+    .PARAMETER ScanResults
     TBD
     .LINK
 

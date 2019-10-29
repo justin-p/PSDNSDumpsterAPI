@@ -1,8 +1,10 @@
-Function Invoke-DNSDDomainInfo {
+Function Get-DNSDDomainInfo {
     <#
     .SYNOPSIS
     TBD
     .DESCRIPTION
+    TBD
+    .PARAMETER DNSDSession
     TBD
     .LINK
 

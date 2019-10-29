@@ -4,6 +4,8 @@ Function New-DNSDSession {
     TBD
     .DESCRIPTION
     TBD
+    .PARAMETER Domain
+    TBD
     .LINK
 
     .EXAMPLE

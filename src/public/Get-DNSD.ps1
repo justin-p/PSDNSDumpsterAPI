@@ -4,6 +4,8 @@ Function Get-DNSD {
     TBD
     .DESCRIPTION
     TBD
+    .PARAMETER Domains
+    TBD
     .LINK
 
     .EXAMPLE
@@ -35,7 +37,7 @@ Function Get-DNSD {
         Try {
             Try {
                 ForEach ($Domain in $Domains) {
-                    $Out += New-DNSDSession -domain $Domain | Invoke-DNSDDomainInfo | Parse-DNSDDomainInfo
+                    $Out += New-DNSDSession -domain $Domain | Get-DNSDDomainInfo | ConvertFrom-DNSDDomainInfo
                 }
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"

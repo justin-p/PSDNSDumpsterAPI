@@ -1,0 +1,8 @@
+﻿New-Object : Cannot find an overload for "Serializer" and the argument count: "1".
+At \\files.ad.graficom.com\UserProfiles$\jperdok\Documents\WindowsPowerShell\Modules\Powershell-YAML\0.3.7\powershell-yaml.psm1:303 char:27
++ ... erializer = New-Object "YamlDotNet.Serialization.Serializer" $Options ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [New-Object], MethodException
+    + FullyQualifiedErrorId : ConstructorInvokedThrowException,Microsoft.PowerShell.Commands.NewObjectCommand
+ 
+
