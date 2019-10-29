@@ -1,4 +1,4 @@
-Function Get-DNSDDomainInfo {
+Function Get-PSDumpsterDomainInfo {
     <#
     .SYNOPSIS
     TBD
@@ -7,16 +7,15 @@ Function Get-DNSDDomainInfo {
     .PARAMETER DNSDSession
     TBD
     .LINK
-
+    TBD
     .EXAMPLE
     TBD
     .NOTES
-
+    TBD
     #>
     [CmdletBinding()]
     Param (
-        [parameter( Mandatory= $true,
-        ValueFromPipelineByPropertyName = $true)]
+        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
         $DNSDSession
     )
     Begin {
@@ -39,6 +38,6 @@ Function Get-DNSDDomainInfo {
     }
     End {
         Write-Verbose "$($FunctionName) - End."
-        Return (New-Object PSObject -Property @{ScanResults=$ScanResults;domain=$DNSDSession.body.targetip})
+        Return (New-Object PSObject -Property @{ScanResults=$ScanResults;DomainName=$DNSDSession.body.targetip;})
     }
 }

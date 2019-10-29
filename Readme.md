@@ -7,6 +7,7 @@ Unofficial DNSDumpster API
 Unofficial DNSDumpster API
 
 ## Introduction
+This module enables you to query DNSDumpster from the Powershell commandline.
 
 ## Requirements
 
@@ -22,6 +23,7 @@ Or clone this repository to your local machine, extract, go to the .\releases\PS
 and import the module to your session to test, but not install this module.
 
 ## Features
+Return the results from DNSDumpster as a PSObject.
 
 ## Versions
 
@@ -35,11 +37,6 @@ Studio Code and ensure that the PowerShell extension is installed.
 
 * [Visual Studio Code]
 * [PowerShell Extension]
-
-This module is tested with the PowerShell testing framework Pester. To run all
-tests, just start the included test script `.\Build.ps1 -test` or invoke Pester
-directly with the `Invoke-Pester` cmdlet in the tests directory. The tests will automatically download
-the latest meta test from the claudiospizzi/PowerShellModuleBase repository.
 
 ## Other Information
 

@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-DNSD
+# Get-PSDNSDumpster
 
 ## SYNOPSIS
 TBD
@@ -13,11 +13,11 @@ TBD
 ## SYNTAX
 
 ```
-Get-DNSD [[-Domains] <Array>] [<CommonParameters>]
+Get-PSDNSDumpster [[-Domains] <Array>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-TBD
+a
 
 ## EXAMPLES
 
@@ -52,5 +52,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+TBD
 
 ## RELATED LINKS
+
+[TBD]()
+

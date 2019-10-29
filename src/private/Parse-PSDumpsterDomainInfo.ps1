@@ -1,5 +1,5 @@
-function ConvertFrom-DNSDDomainInfo {
-<#
+function Parse-PSDumpsterDomainInfo {
+    <#
     .SYNOPSIS
     TBD
     .DESCRIPTION
@@ -9,19 +9,18 @@ function ConvertFrom-DNSDDomainInfo {
     .PARAMETER ScanResults
     TBD
     .LINK
-
+    TBD
     .EXAMPLE
     TBD
     .NOTES
-    Based of https://www.leeholmes.com/blog/2015/01/05/extracting-tables-from-powershells-invoke-webrequest/
+    TBD
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessage("PSUseApprovedVerbs", Scope="function")]
     [CmdletBinding()]
     Param (
-        [parameter( Mandatory= $true,
-        ValueFromPipelineByPropertyName = $true)]
-        $domain,
-        [parameter( Mandatory= $true,
-        ValueFromPipelineByPropertyName = $true)]
+        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
+        $DomainName,
+        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
         $ScanResults
     )
     Begin {
@@ -52,7 +51,12 @@ function ConvertFrom-DNSDDomainInfo {
                 $MXRows   = $($tables[1]).Rows
                 $TXTRows  = $($tables[2]).Rows
                 $HostRows = $($tables[3]).Rows
-                Write-Verbose "$($FunctionName) - Go through all of the rows in the tables"
+            }
+            Catch {
+                Write-Error "$($FunctionName) - Unable to parse '`$ScanResults' - $PSItem"
+            }
+            Write-Verbose "$($FunctionName) - Go through all of the rows we defined."
+            Try {
                 ForEach ($row in $DNSRows) {
                     $cells = @($row.Cells)
                     $resultObject = [Ordered] @{ }
@@ -63,6 +67,10 @@ function ConvertFrom-DNSDDomainInfo {
                     $resultObject["country"]    = @(("" + $cells[2].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[1]
                     $DNSObject +=[PSCustomObject] $resultObject
                 }
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to parse '`$DNSRows'- $PSItem"
+            }
+            Try {
                 ForEach ($row in $MXRows) {
                     $cells = @($row.Cells)
                     $resultObject = [Ordered] @{ }
@@ -74,20 +82,22 @@ function ConvertFrom-DNSDDomainInfo {
                     $resultObject["country"]    = @((""  + $cells[2].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[1]
                     $MXObject +=[PSCustomObject] $resultObject
                 }
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to parse '`$MXRows'- $PSItem"
+            }
+            Try {
                 ForEach ($row in $TXTRows) {
                     $TXTObject +=$row.InnerText
                 }
-                $Counter=0
-                $resultObject = [Ordered] @{ }
-                ForEach ($txt in $TXTObject) {
-                    $Counter++
-                    $resultObject[$("txt"+$counter)] = $txt
-                }
-                $TXTObject = [PSCustomObject]$resultObject
+                $TXTObject = New-Object PSObject -property @{TXTRecords=$TXTObject}
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to parse '`$TXTRows'- $PSItem"
+            }
+            Try {
                 ForEach ($row in $HostRows) {
                     $cells = @($row.Cells)
                     $resultObject = [Ordered] @{ }
-                    $resultObject["host"]       = @(( "" + $cells[0].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[0]
+                    $resultObject["host"]       = @(("" + $cells[0].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[0]
                     $resultObject["services"]   = @(("" + $cells[0].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[(2..(("" + $cells[0].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"}).count)]
                     $resultObject["ip"]         = @(("" + $cells[1].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[0]
                     $resultObject["reversedns"] = @(("" + $cells[1].InnerText).Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})[1]
@@ -96,13 +106,13 @@ function ConvertFrom-DNSDDomainInfo {
                     $HostObject +=[PSCustomObject] $resultObject
                 }
             } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
+                Write-Error "$($FunctionName) - Unable to parse '`$HostRows'- $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-        Return $(New-Object psobject -Property @{domain=$domain;DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject})
-    }
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterOutput=@{DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject}})
+        }
 }

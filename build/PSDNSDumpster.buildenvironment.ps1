@@ -48,7 +48,7 @@ if ((Get-Variable 'BuildEnv' -ErrorAction:SilentlyContinue) -eq $null) {
         AdditionalModulePaths = @('plugins')
 
         # Generate a yml file in the root folder of this project for readthedocs.org integration
-        OptionGenerateReadTheDocs = $True
+        OptionGenerateReadTheDocs = $False
         # Most of the following options you probably don't need to change
         BaseSourceFolder = 'src'        # Base source path
         PublicFunctionSource = "src\public"         # Public functions (to be exported by file name as the function name)

@@ -1,17 +1,17 @@
-Function Get-DNSD {
+Function Get-PSDNSDumpster {
     <#
     .SYNOPSIS
     TBD
     .DESCRIPTION
-    TBD
+    a
     .PARAMETER Domains
     TBD
     .LINK
-
+    TBD
     .EXAMPLE
     TBD
     .NOTES
-
+    TBD
     #>
     [CmdletBinding()]
     Param(
@@ -25,7 +25,7 @@ Function Get-DNSD {
         Write-Verbose "$($FunctionName) - Begin."
         Try {
             Try {
-                $out=@()
+                $OutputObject=@()
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
@@ -36,8 +36,8 @@ Function Get-DNSD {
     Process {
         Try {
             Try {
-                ForEach ($Domain in $Domains) {
-                    $Out += New-DNSDSession -domain $Domain | Get-DNSDDomainInfo | ConvertFrom-DNSDDomainInfo
+                ForEach ($DomainName in $Domains) {
+                    $OutputObject += $DomainName | New-PSDumpsterSession | Get-PSDumpsterDomainInfo | Parse-PSDumpsterDomainInfo
                 }
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
@@ -50,7 +50,7 @@ Function Get-DNSD {
         Write-Verbose "$($FunctionName) - End."
         Try {
             Try {
-                Return $out
+                Return $OutputObject
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
