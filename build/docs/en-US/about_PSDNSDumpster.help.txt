@@ -1,0 +1,17 @@
+TOPIC
+    about_PSDNSDumpster
+
+SHORT DESCRIPTION
+    Unofficial DNSDumpster API
+
+LONG DESCRIPTION
+    Unofficial DNSDumpster API
+
+EXAMPLES
+    TBD
+
+KEYWORDS
+    DNSDumpster, API
+
+SEE ALSO
+    https://github.com/justin-p/PSDNSDumpster
