@@ -1,13 +1,11 @@
 # PSDNSDumpsterAPI
 
-Unofficial DNSDumpster API
-
 ## Description
 
-Unofficial DNSDumpster API
+(Unofficial) PowerShell API for https://dnsdumpster.com/
 
 ## Introduction
-This module enables you to query DNSDumpster from the Powershell commandline.
+This module enables you to query [dnsdumpster](https://dnsdumpster.com/) from the PowerShell commandline.
 
 ## Requirements
 
