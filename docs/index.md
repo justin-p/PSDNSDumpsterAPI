@@ -1,27 +1,27 @@
-# PSDNSDumpster
+# PSDNSDumpsterAPI
 Unofficial DNSDumpster API
 
-Project Site: [https://github.com/justin-p/PSDNSDumpster](https://github.com/justin-p/PSDNSDumpster)
+Project Site: [https://github.com/justin-p/PSDNSDumpsterAPI](https://github.com/justin-p/PSDNSDumpsterAPI)
 
-## What is PSDNSDumpster?
+## What is PSDNSDumpsterAPI?
 Unofficial DNSDumpster API
 
-## Why use the PSDNSDumpster Module?
+## Why use the PSDNSDumpsterAPI Module?
 If you are are lazy like me and can't be bothered to open a browser to get DNSDumpster info.
 
 ### Features
 Return the results from DNSDumpster as a PSObject.
 
 ## Installation
-PSDNSDumpster is available on the [PowerShell Gallery](https://www.powershellgallery.com/packages/PSDNSDumpster/).
+PSDNSDumpsterAPI is available on the [PowerShell Gallery](https://www.powershellgallery.com/packages/PSDNSDumpsterAPI/).
 
 To Inspect:
 ```powershell
-Save-Module -Name PSDNSDumpster -Path <path>
+Save-Module -Name PSDNSDumpsterAPI -Path <path>
 ```
 To install:
 ```powershell
-Install-Module -Name PSDNSDumpster -Scope CurrentUser
+Install-Module -Name PSDNSDumpsterAPI -Scope CurrentUser
 ```
 
 ## Contributing

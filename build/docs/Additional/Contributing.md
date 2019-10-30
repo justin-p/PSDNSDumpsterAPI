@@ -1,6 +1,6 @@
-# Contributing to PSDNSDumpster
+# Contributing to PSDNSDumpsterAPI
 
-Project Site: [https://github.com/justin-p/PSDNSDumpster](https://github.com/justin-p/PSDNSDumpster)
+Project Site: [https://github.com/justin-p/PSDNSDumpsterAPI](https://github.com/justin-p/PSDNSDumpsterAPI)
 
 There are some important things to be aware of if you plan on contributing to this project.
 

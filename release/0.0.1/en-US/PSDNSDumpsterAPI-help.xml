@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-PSDNSDumpsterAPI</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>PSDNSDumpsterAPI</command:noun>
+      <maml:description>
+        <maml:para>Send a webrequest to DNSDumpster, parse output and return it as a PSObject.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Send a webrequest to DNSDumpster, parse output and return it as a PSObject.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-PSDNSDumpsterAPI</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>Domains</maml:name>
+          <maml:Description>
+            <maml:para>One or more domains to get DNSDumpster results for.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Array</command:parameterValue>
+          <dev:type>
+            <maml:name>Array</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>Domains</maml:name>
+        <maml:Description>
+          <maml:para>One or more domains to get DNSDumpster results for.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Array</command:parameterValue>
+        <dev:type>
+          <maml:name>Array</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Author: Justin Perdok, https://justin-p.me. Project: https://github.com/justin-p/PSDNSDumpsterAPI</maml:para>
+        <maml:para>ContentInBytes to PNG file: To turn the Image Byte array (ContentInBytes) to a png file run the following set of commands: $domain = Invoke-PSDNSDumpsterAPI -Domains "justin-p.me" $domain.DNSDumpsterOutput.Image.ContentInBytes | Set-Content -Encoding Byte -Path c:\path\to\file.png</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Invoke-PSDNSDumpsterAPI -Domains 'justin-p.me'</dev:code>
+        <dev:remarks>
+          <maml:para>DNSDumpsterObject        DomainName -----------------        ---------- {DNS, TXT, MX, Image...} justin-p.me</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Invoke-PSDNSDumpsterAPI -Domains 'justin-p.me','reddit.com','youtube.com'</dev:code>
+        <dev:remarks>
+          <maml:para>DNSDumpsterObject        DomainName -----------------        ---------- {DNS, TXT, MX, Image...} justin-p.me {DNS, TXT, MX, Image...} reddit.com {DNS, TXT, MX, Image...} youtube.com</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>'microsoft.com','google.com' | Invoke-PSDNSDumpsterAPI</dev:code>
+        <dev:remarks>
+          <maml:para>DNSDumpsterObject        DomainName -----------------        ---------- {DNS, TXT, MX, Image...} microsoft.com {DNS, TXT, MX, Image...} google.com</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://github.com/justin-p/PSDNSDumpsterAPI</maml:linkText>
+        <maml:uri>https://github.com/justin-p/PSDNSDumpsterAPI</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+</helpItems>

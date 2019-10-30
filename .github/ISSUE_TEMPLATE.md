@@ -1,4 +1,4 @@
-Thank you for opening an issue on PSDNSDumpster.  To
+Thank you for opening an issue on PSDNSDumpsterAPI.  To
 improve the speed of resolution please review the following guidelines and
 common troubleshooting steps below before creating the issue:
 

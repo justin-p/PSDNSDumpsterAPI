@@ -1,6 +1,6 @@
-# PSDNSDumpster Acknowledgements
+# PSDNSDumpsterAPI Acknowledgements
 
-Project Site: [https://github.com/justin-p/PSDNSDumpster](https://github.com/justin-p/PSDNSDumpster)
+Project Site: [https://github.com/justin-p/PSDNSDumpsterAPI](https://github.com/justin-p/PSDNSDumpsterAPI)
 
 This project owes some acknowlegement to other projects. Here are some other authors or projects which have made this project possible. If you believe you or a project should be included in this list please let us know.
 
