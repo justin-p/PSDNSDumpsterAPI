@@ -3,7 +3,7 @@ Function Get-PSDNSDumpster {
     .SYNOPSIS
     TBD
     .DESCRIPTION
-    a
+    TBD
     .PARAMETER Domains
     TBD
     .LINK
@@ -37,7 +37,7 @@ Function Get-PSDNSDumpster {
         Try {
             Try {
                 ForEach ($DomainName in $Domains) {
-                    $OutputObject += $DomainName | New-PSDumpsterSession | Get-PSDumpsterDomainInfo | Parse-PSDumpsterDomainInfo
+                    $DomainName | New-PSDumpsterSession | Get-PSDumpsterDomainInfo | Parse-PSDumpsterDomainInfo
                 }
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"

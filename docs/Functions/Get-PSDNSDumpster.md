@@ -17,7 +17,7 @@ Get-PSDNSDumpster [[-Domains] <Array>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-a
+TBD
 
 ## EXAMPLES
 

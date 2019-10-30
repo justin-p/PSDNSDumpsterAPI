@@ -30,7 +30,7 @@ Function Get-PSDumpsterDomainInfo {
             Try {
                 $ScanResults = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -Body $($DNSDSession.Body) -Method Post -WebSession $($DNSDSession.Session) -ContentType 'application/x-www-form-urlencoded' -Headers $($DNSDSession.Header)
             } Catch {
-                Write-Error "$($FunctionName) - Unable to get results for domain '$($domain)' - $PSItem"
+                Write-Error "$($FunctionName) - Unable to get results for domain '$($DNSDSession.body.targetip)' - $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)

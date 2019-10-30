@@ -1,4 +1,4 @@
-function Parse-PSDumpsterDomainInfo {
+function Convert-PSDumpsterDomainInfo {
     <#
     .SYNOPSIS
     TBD
@@ -15,7 +15,6 @@ function Parse-PSDumpsterDomainInfo {
     .NOTES
     TBD
     #>
-    [Diagnostics.CodeAnalysis.SuppressMessage("PSUseApprovedVerbs", Scope="function")]
     [CmdletBinding()]
     Param (
         [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
@@ -41,7 +40,6 @@ function Parse-PSDumpsterDomainInfo {
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
-
     } Process {
         Try {
             Try {
@@ -108,11 +106,16 @@ function Parse-PSDumpsterDomainInfo {
             } Catch {
                 Write-Error "$($FunctionName) - Unable to parse '`$HostRows'- $PSItem"
             }
+            Try {
+                $ImageObject = Get-PSDumpsterImage -URL $("https://dnsdumpster.com/static/map/" + $DomainName + ".png")
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
+            }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterOutput=@{DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject}})
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterOutput=@{DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject;ImageObject=$ImageObject;}})
         }
 }

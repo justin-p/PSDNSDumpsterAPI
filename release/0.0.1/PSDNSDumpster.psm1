@@ -185,7 +185,7 @@ Function Get-PSDumpsterDomainInfo {
             Try {
                 $ScanResults = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -Body $($DNSDSession.Body) -Method Post -WebSession $($DNSDSession.Session) -ContentType 'application/x-www-form-urlencoded' -Headers $($DNSDSession.Header)
             } Catch {
-                Write-Error "$($FunctionName) - Unable to get results for domain '$($domain)' - $PSItem"
+                Write-Error "$($FunctionName) - Unable to get results for domain '$($DNSDSession.body.targetip)' - $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
@@ -194,6 +194,69 @@ Function Get-PSDumpsterDomainInfo {
     End {
         Write-Verbose "$($FunctionName) - End."
         Return (New-Object PSObject -Property @{ScanResults=$ScanResults;DomainName=$DNSDSession.body.targetip;})
+    }
+}
+
+Function Get-PSDumpsterImage {
+    <#
+    .SYNOPSIS
+    TBD
+    .DESCRIPTION
+    TBD
+    .EXAMPLE
+    TBD
+    .EXAMPLE
+    TBD
+    .EXAMPLE
+    #>
+    [CmdletBinding()]
+    param(
+        [parameter(Mandatory= $true,ValueFromPipeline = $true)]
+        [System.Uri]$URL
+    )
+    Begin {
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName) - Begin."
+        Try {
+            Try {
+                $OutputObject=@()
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+    }
+    Process {
+        Write-Verbose "$($FunctionName) - Process $URL"
+        Try {
+            Try {
+                $Content = $(Invoke-WebRequest $URL).content
+                If ($Content.GetType().Name -ne 'Byte[]') {
+                    $Content = [System.Text.Encoding]::UTF8.GetBytes($Content)
+                }
+                $OutputObject   += $(New-Object PSObject -Property @{url=$URL;ContentInBytes=$Content;})
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+    }
+    End {
+        Write-Verbose "$($FunctionName) - End."
+        Try {
+            Try {
+                Return $OutputObject
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
     }
 }
 
@@ -243,7 +306,7 @@ Function New-PSDumpsterSession {
     }
 }
 
-function Parse-PSDumpsterDomainInfo {
+function Convert-PSDumpsterDomainInfo {
     <#
     .SYNOPSIS
     TBD
@@ -260,7 +323,6 @@ function Parse-PSDumpsterDomainInfo {
     .NOTES
     TBD
     #>
-    [Diagnostics.CodeAnalysis.SuppressMessage("PSUseApprovedVerbs", Scope="function")]
     [CmdletBinding()]
     Param (
         [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
@@ -286,7 +348,6 @@ function Parse-PSDumpsterDomainInfo {
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
-
     } Process {
         Try {
             Try {
@@ -353,12 +414,17 @@ function Parse-PSDumpsterDomainInfo {
             } Catch {
                 Write-Error "$($FunctionName) - Unable to parse '`$HostRows'- $PSItem"
             }
+            Try {
+                $ImageObject = Get-PSDumpsterImage -URL $("https://dnsdumpster.com/static/map/" + $DomainName + ".png")
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
+            }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterOutput=@{DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject}})
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterOutput=@{DNSObject=$DNSObject;MXObject=$MXObject;TXTObject=$TXTObject;HostObject=$HostObject;ImageObject=$ImageObject;}})
         }
 }
 
@@ -394,7 +460,7 @@ Function Get-PSDNSDumpster {
         Try {
             Try {
                 ForEach ($DomainName in $Domains) {
-                    $OutputObject += $DomainName | New-PSDumpsterSession | Get-PSDumpsterDomainInfo | Parse-PSDumpsterDomainInfo
+                    $DomainName | New-PSDumpsterSession | Get-PSDumpsterDomainInfo | Parse-PSDumpsterDomainInfo
                 }
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
