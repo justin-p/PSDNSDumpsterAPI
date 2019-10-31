@@ -18,14 +18,14 @@ param (
 function PrerequisitesLoaded {
     # Install required modules if missing
     try {
-        if ((get-module InvokeBuild -ListAvailable) -eq $null) {
-            Write-Output "Attempting to install the InvokeBuild module..."
+        if ($null -eq (get-module InvokeBuild -ListAvailable)) {
+            Write-Output -InputObject "Attempting to install the InvokeBuild module..."
             $null = Install-Module InvokeBuild -Scope:CurrentUser
         }
         if (get-module InvokeBuild -ListAvailable) {
-            Write-Output -NoNewLine "Importing InvokeBuild module"
+            Write-Output -InputObject "Importing InvokeBuild module"
             Import-Module InvokeBuild -Force
-            Write-Output '...Loaded!'
+            Write-Output -InputObject '...Loaded!'
             return $true
         }
         else {
@@ -39,12 +39,14 @@ function PrerequisitesLoaded {
 
 function CleanUp {
     try {
-        Write-Output ''
-        Write-Output 'Attempting to clean up the session (loaded modules and such)...'
+        Write-Output -InputObject ''
+        Write-Output -InputObject 'Attempting to clean up the session (loaded modules and such)...'
         Invoke-Build -Task BuildSessionCleanup
         Remove-Module InvokeBuild
     }
-    catch {}
+    catch {
+        Write-Error "Error during cleanup - $PSItem"
+    }
 }
 
 if (-not (PrerequisitesLoaded)) {
@@ -79,8 +81,8 @@ switch ($psCmdlet.ParameterSetName) {
                 Invoke-Build
             }
             catch {
-                Write-Output 'Build Failed with the following error:'
-                Write-Output $_
+                Write-Output -InputObject 'Build Failed with the following error:'
+                Write-Output -InputObject $_
             }
         }
 
@@ -90,8 +92,8 @@ switch ($psCmdlet.ParameterSetName) {
                 Invoke-Build -Task InstallAndTestModule
             }
             catch {
-                Write-Output 'Install and test of module failed:'
-                Write-Output $_
+                Write-Output -InputObject 'Install and test of module failed:'
+                Write-Output -InputObject $_
             }
         }
 
