@@ -117,7 +117,7 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
             }
             Try {
-                $ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $("https://dnsdumpster.com/" + "$($ExcelHref.pathname)")
+                #$ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $("https://dnsdumpster.com/" + "$($ExcelHref.pathname)")
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get excel from DNSDumpster - $PSItem"
             }
