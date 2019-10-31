@@ -71,7 +71,12 @@ task LoadRequiredModules {
     $Script:RequiredModules | Foreach-Object {
         if ((get-module $_ -ListAvailable) -eq $null) {
             Write-Description White "Installing $($_) Module" -Level 2
-            $null = Install-Module $_ -Scope:CurrentUser
+            if ($_ -eq "PlatyPS") {
+                $null = Install-Module $_ -Scope:CurrentUser -MinimumVersion 0.12.0 -MaximumVersion 0.12.0
+            } Else {
+                $null = Install-Module $_ -Scope:CurrentUser
+            }
+
         }
         if (get-module $_ -ListAvailable) {
             Write-Description White "Importing $($_) Module" -Level 2
