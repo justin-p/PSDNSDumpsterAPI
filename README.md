@@ -31,11 +31,22 @@ and import the module to your session to test, but not install this module.
 
 ## Features
 
-Return the results from dnsdumpster as a PSObject, including the domain image (stored in byte array) and excel file
+Return the results from dnsdumpster as a PSObject.
+
+![GetDomains](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/GetDomains.gif)
+
+Use the magic of powershell objects to comb through the data.
+
+![ShowDomainInfo](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/ShowDomainInfo.gif)
+
+Image of the domain is added to the object as a byte array. Use Set-Content to save the image to disk.
+
+![SaveDomainImg](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/SaveDomainImg.gif)
 
 ## Versions
 
 0.0.1 - Initial Release
+0.0.2 - Alpha build
 
 ## Contribute
 
