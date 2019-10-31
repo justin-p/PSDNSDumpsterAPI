@@ -109,7 +109,7 @@ switch ($psCmdlet.ParameterSetName) {
             }
         }
         if ($AppVeyor) {
-            Invoke-Build -TaskBuildInstallTestAndPublishModule
+            Invoke-Build -Task BuildInstallTestAndPublishModule
         }
         #CleanUp
     }
