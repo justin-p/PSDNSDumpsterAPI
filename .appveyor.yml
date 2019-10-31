@@ -19,4 +19,4 @@ build: false
 
 #Kick off the CI/CD pipeline
 test_script:
-  - ps: . .\Build.ps1 -BuildInstallTestAndPublishModule
+  - ps: . .\Build.ps1 -AppVeyor

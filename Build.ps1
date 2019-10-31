@@ -108,7 +108,7 @@ switch ($psCmdlet.ParameterSetName) {
                 throw 'Unable to upload project to the PowerShell Gallery!'
             }
         }
-        if ($BuildInstallTestAndPublishModule) {
+        if ($AppVeyor) {
             Invoke-Build -TaskBuildInstallTestAndPublishModule
         }
         #CleanUp
