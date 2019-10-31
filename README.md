@@ -1,10 +1,15 @@
 # PSDNSDumpsterAPI
+
+<img src="https://raw.githubusercontent.com/justin-p/PSDNSDumpsterAPI/master/src/other/powershell-project.png" height="240">
+
 [![License](https://img.shields.io/github/license/justin-p/PSDNSDumpsterAPI?style=flat-square)](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/LICENSE.md)
 [![AppveyorBuild](https://img.shields.io/appveyor/ci/justin-p/psdnsdumpsterapi?style=flat-square)](https://ci.appveyor.com/project/justin-p/psdnsdumpsterapi)
 [![CodacyGrade](https://img.shields.io/codacy/grade/aeab860a75e24a3f9c40c9defc2a01d7?style=flat-square)](https://www.codacy.com/manual/justin-p/PSDNSDumpsterAPI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justin-p/PSDNSDumpsterAPI&amp;utm_campaign=Badge_Grade)
 [![PowerShellGalleryVersion](https://img.shields.io/powershellgallery/v/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
 [![PowerShellGalleryDownloads](https://img.shields.io/powershellgallery/dt/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
 
+
+                                                                                                                         
 ## Description
 
 (Unofficial) PowerShell API for [htttps://www.dnsdumpster.com](https://dnsdumpster.com/)
