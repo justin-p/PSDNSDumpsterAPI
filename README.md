@@ -45,8 +45,8 @@ Image of the domain is added to the object as a byte array. Use Set-Content to s
 
 ## Versions
 
-0.0.1 - Initial Release
-0.0.2 - Alpha build
+0.0.1 - Initial Release  
+0.0.2 - Alpha build  
 
 ## Contribute
 
