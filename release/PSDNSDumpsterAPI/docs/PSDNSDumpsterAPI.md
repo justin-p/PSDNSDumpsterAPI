@@ -8,7 +8,7 @@ Locale: en-US
 
 # PSDNSDumpsterAPI Module
 ## Description
-Unofficial DNSDumpster API
+(Unofficial) PowerShell API for dnsdumpster
 
 ## PSDNSDumpsterAPI Cmdlets
 ### [Invoke-PSDNSDumpsterAPI](Invoke-PSDNSDumpsterAPI.md)

@@ -27,13 +27,13 @@ Author = 'Justin Perdok'
 CompanyName = ' '
 
 # Copyright statement for this module
-Copyright = '(c) 2019  . All rights reserved.'
+Copyright = '(c) 2019 Justin Perdok. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Unofficial DNSDumpster API'
+Description = '(Unofficial) PowerShell API for dnsdumpster'
 
 # Minimum version of the Windows PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5.1'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
