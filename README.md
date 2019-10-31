@@ -8,8 +8,6 @@
 [![PowerShellGalleryVersion](https://img.shields.io/powershellgallery/v/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
 [![PowerShellGalleryDownloads](https://img.shields.io/powershellgallery/dt/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
 
-
-                                                                                                                         
 ## Description
 
 (Unofficial) PowerShell API for [htttps://www.dnsdumpster.com](https://dnsdumpster.com/)
