@@ -12,7 +12,7 @@ param (
     [parameter(Position = 5, ParameterSetName = 'Build')]
     [string]$ReleaseNotes,
     [parameter(Position = 6, ParameterSetName = 'Build')]
-    [string]$AppVeyor,
+    [switch]$AppVeyor,
     [parameter(Position = 7, ParameterSetName = 'CBH')]
     [switch]$AddCBH
 )
