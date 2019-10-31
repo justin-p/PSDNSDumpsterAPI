@@ -11,7 +11,9 @@ param (
     [version]$NewVersion,
     [parameter(Position = 5, ParameterSetName = 'Build')]
     [string]$ReleaseNotes,
-    [parameter(Position = 6, ParameterSetName = 'CBH')]
+    [parameter(Position = 6, ParameterSetName = 'Build')]
+    [string]$AppVeyor,
+    [parameter(Position = 7, ParameterSetName = 'CBH')]
     [switch]$AddCBH
 )
 
@@ -106,7 +108,6 @@ switch ($psCmdlet.ParameterSetName) {
                 throw 'Unable to upload project to the PowerShell Gallery!'
             }
         }
-
         #CleanUp
     }
 }
