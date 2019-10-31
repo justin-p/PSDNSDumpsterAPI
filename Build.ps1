@@ -108,6 +108,9 @@ switch ($psCmdlet.ParameterSetName) {
                 throw 'Unable to upload project to the PowerShell Gallery!'
             }
         }
+        if ($BuildInstallTestAndPublishModule) {
+            Invoke-Build -TaskBuildInstallTestAndPublishModule
+        }
         #CleanUp
     }
 }
