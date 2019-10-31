@@ -16,7 +16,6 @@ environment:
     secure: djLw2n2x5RZApaETQrojq5DLYGVIcNqKlR2K1/w76XCwS8CcH2LxL1GBYkWUnQ5H
 
 build: false
-  verbosity: minimal
 
 #Kick off the CI/CD pipeline
 test_script:
