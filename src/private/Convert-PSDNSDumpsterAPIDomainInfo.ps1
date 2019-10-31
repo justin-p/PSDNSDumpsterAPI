@@ -35,7 +35,7 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 $MXObject    = @()
                 $TXTObject   = @()
                 $HostObject  = @()
-                $ExcelObject = @()
+                #$ExcelObject = @()
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
@@ -48,12 +48,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
             Try {
                 Write-Debug "$($FunctionName) - Extract info out of the web request"
                 $tables    = @($ScanResults.ParsedHtml.getElementsByTagName("TABLE"))
-                $a         = @($ScanResults.ParsedHtml.getElementsByTagName("A"))
+                #$a         = @($ScanResults.ParsedHtml.getElementsByTagName("A"))
                 $DNSRows   = $($tables[0]).Rows
                 $MXRows    = $($tables[1]).Rows
                 $TXTRows   = $($tables[2]).Rows
                 $HostRows  = $($tables[3]).Rows
-                $ExcelHref = $a[24]
+                #$ExcelHref = $a[24]
             }
             Catch {
                 Write-Error "$($FunctionName) - Unable to parse '`$ScanResults' - $PSItem"
@@ -126,6 +126,6 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;Excel=$ExcelObject;};DNSDumpsterSession=$DNSDumpsterSession;})
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;};DNSDumpsterSession=$DNSDumpsterSession;})
         }
 }
