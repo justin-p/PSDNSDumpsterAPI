@@ -737,16 +737,17 @@ task PublishPSGallery LoadBuildTools, InstallModule, {
     $CurrentModule = Join-Path $CurrentReleasePath "$($Script:BuildEnv.ModuleToBuild).psd1"
     if (Test-Path $CurrentModule) {
         Import-Module -Name $CurrentModule
-
-        Write-Description White "Uploading project to PSGallery: $($Script:BuildEnv.ModuleToBuild)"
-        if ($ENV:APIKEY) {
-            Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $ENV:APIKEY
-        } Else {
-            Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $Script:BuildEnv.NuGetApiKey
+        Try {
+            Write-Description White "Uploading project to PSGallery: $($Script:BuildEnv.ModuleToBuild)"
+            if ($ENV:APIKEY) {
+                Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $ENV:APIKEY
+            } Else {
+                Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $Script:BuildEnv.NuGetApiKey
+            }
+        } Catch {
+            Write-Error -Message "Unable to publish the module. $PSItem" -ErrorAction Stop
         }
-
     }
-
     else {
         Write-Warning "Unable to publish the module as a current release is not available in $CurrentModule"
     }
