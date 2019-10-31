@@ -36,7 +36,6 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 $TXTObject   = @()
                 $HostObject  = @()
                 $ExcelObject = @()
-                $GraphObject = @()
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }

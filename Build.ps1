@@ -64,7 +64,7 @@ switch ($psCmdlet.ParameterSetName) {
             }
         }
 
-        CleanUp
+        #CleanUp
     }
     'Build' {
         if ($NewVersion -ne $null) {
@@ -107,6 +107,6 @@ switch ($psCmdlet.ParameterSetName) {
             }
         }
 
-        CleanUp
+        #CleanUp
     }
 }
