@@ -189,7 +189,7 @@
                 <div class="col-sm-4 col-md-5 col-lg-4 right-header">
                     <h5>
                         Analyzed path :<span class="right-header-data"> src\private</span><br>
-                        Analysis date :<span class="right-header-data"> 2019-10-31 10:59:58Z</span>
+                        Analysis date :<span class="right-header-data"> 2019-10-31 15:05:21Z</span>
                     </h5>
                 </div>
             </div>
@@ -213,7 +213,7 @@
                                 <h3 class="panel-title"><i class="fa fa-file-code-o" aria-hidden="true">&nbsp;</i> Number of Files</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>5</h2>
+                                <h2>6</h2>
                             </div>
                         </div>
                     </div>
@@ -223,7 +223,7 @@
                                 <h3 class="panel-title"><i class="fa fa-code" aria-hidden="true">&nbsp;</i> Number of Functions</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>5</h2>
+                                <h2>6</h2>
                             </div>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
                                 <h3 class="panel-title"><i class="fa fa-arrows-v" aria-hidden="true">&nbsp;</i> Lines of Code - Total</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>322</h2>
+                                <h2>384</h2>
                             </div>
                         </div>
                     </div>
@@ -246,9 +246,9 @@
                             </div>
                             <table class="table">
                                 <tr class="text-success"><td>Errors</td><td>0</td></tr>
-                                <tr class="text-success"><td>Warnings</td><td>0</td></tr>
+                                <tr class="text-success"><td>Warnings</td><td>1</td></tr>
                                 <tr class="text-success"><td>Information</td><td>0</td></tr>
-                                <tr class="text-success"><td>Total</td><td>0</td></tr>
+                                <tr class="text-success"><td>Total</td><td>1</td></tr>
                             </table>
                         </div>
                     </div>
@@ -282,7 +282,7 @@
                                 <h3 class="panel-title"><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;</i> ScriptAnalyzer Findings - Total</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>0</h2>
+                                <h2>1</h2>
                             </div>
                         </div>
                     </div>
@@ -302,7 +302,7 @@
                                 <h3 class="panel-title"><i class="fa fa-exclamation-triangle" aria-hidden="true">&nbsp;</i> ScriptAnalyzer Warnings</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>0</h2>
+                                <h2>1</h2>
                             </div>
                         </div>
                     </div>
@@ -314,7 +314,7 @@
                                 <h3 class="panel-title"><i class="fa fa-bar-chart" aria-hidden="true">&nbsp;</i> ScriptAnalyzer Findings - Average</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>0</h2>
+                                <h2>0.17</h2>
                             </div>
                         </div>
                     </div>
@@ -357,8 +357,20 @@
                                 <tbody>
                                     <tr>
                                         <td>Convert-PSDNSDumpsterAPIDomainInfo</td>
-                                        <td class="success">0</td>
-                                        <td class=""></td>
+                                        <td class="success">1</td>
+                                        <td class="warning">
+                                            <button type="button" class="btn btn-warning btn-sm cell-expand-collapse"> Expand</button>
+                                            <table>
+                                                 <tr>
+                                                    <td class="warning cell-largeContent">ScriptName : Convert-PSDNSDumpsterAPIDomainInfo.ps1<br>
+Line (in the function) : 39<br>
+Severity                      : Warning<br>
+RuleName                      : PSUseDeclaredVarsMoreThanAssignments<br>
+Message                       : The variable 'GraphObject' is assigned but never used.<br>
+                                                    </td>
+                                                </tr>
+                                             </table>
+                                        </td>
                                         <td class="success">True</td>
                                     </tr>
                                     <tr>
@@ -369,6 +381,12 @@
                                     </tr>
                                     <tr>
                                         <td>Get-PSDNSDumpsterAPIDomainInfo</td>
+                                        <td class="success">0</td>
+                                        <td class=""></td>
+                                        <td class="success">True</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Get-PSDNSDumpsterAPIExcel</td>
                                         <td class="success">0</td>
                                         <td class=""></td>
                                         <td class="success">True</td>
@@ -400,7 +418,7 @@
                                 <h3 class="panel-title"><i class="fa fa-arrows-v" aria-hidden="true">&nbsp;</i> Lines of Code - Total</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>322</h2>
+                                <h2>384</h2>
                             </div>
                         </div>
                     </div>
@@ -432,7 +450,7 @@
                                 <h3 class="panel-title"><i class="fa fa-arrows-v" aria-hidden="true">&nbsp;</i> Lines of Code - Average</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>64.4</h2>
+                                <h2>64</h2>
                             </div>
                         </div>
                     </div>
@@ -442,7 +460,7 @@
                                 <h3 class="panel-title"><i class="fa fa-arrows-alt" aria-hidden="true">&nbsp;</i> Complexity - Average</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>8.2</h2>
+                                <h2>8.5</h2>
                             </div>
                         </div>
                     </div>
@@ -452,7 +470,7 @@
                                 <h3 class="panel-title"><i class="fa fa-object-group" aria-hidden="true">&nbsp;</i> Nesting Depth - Average</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>4.4</h2>
+                                <h2>4.33</h2>
                             </div>
                         </div>
                     </div>
@@ -475,8 +493,8 @@
                                 <tbody>
                                     <tr>
                                         <td>Convert-PSDNSDumpsterAPIDomainInfo</td>
-                                        <td class="danger">106</td>
-                                        <td class="success">11</td>
+                                        <td class="danger">117</td>
+                                        <td class="success">12</td>
                                         <td class="warning">5</td>
                                     </tr>
                                     <tr>
@@ -490,6 +508,12 @@
                                         <td class="success">30</td>
                                         <td class="success">4</td>
                                         <td class="success">3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Get-PSDNSDumpsterAPIExcel</td>
+                                        <td class="warning">51</td>
+                                        <td class="success">9</td>
+                                        <td class="success">4</td>
                                     </tr>
                                     <tr>
                                         <td>Get-PSDNSDumpsterAPIImage</td>
@@ -550,7 +574,7 @@
                                 <h3 class="panel-title"><i class="fa fa-times" aria-hidden="true">&nbsp;</i> Number of Missed Commands</h3>
                             </div>
                             <div class="panel-body">
-                                <h2>287</h2>
+                                <h2>328</h2>
                             </div>
                         </div>
                     </div>
@@ -616,7 +640,7 @@
                                     <tr>
                                         <td>Convert-PSDNSDumpsterAPIDomainInfo</td>
                                         <td class="danger">0</td>
-                                        <td class="danger">161</td>
+                                        <td class="danger">173</td>
                                     </tr>
                                     <tr>
                                         <td>Get-CallerPreference</td>
@@ -626,7 +650,12 @@
                                     <tr>
                                         <td>Get-PSDNSDumpsterAPIDomainInfo</td>
                                         <td class="danger">0</td>
-                                        <td class="danger">22</td>
+                                        <td class="danger">23</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Get-PSDNSDumpsterAPIExcel</td>
+                                        <td class="danger">0</td>
+                                        <td class="danger">28</td>
                                     </tr>
                                     <tr>
                                         <td>Get-PSDNSDumpsterAPIImage</td>

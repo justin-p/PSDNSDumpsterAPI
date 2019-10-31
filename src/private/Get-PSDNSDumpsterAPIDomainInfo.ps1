@@ -14,8 +14,8 @@ Function Get-PSDNSDumpsterAPIDomainInfo {
     #>
     [CmdletBinding()]
     Param (
-        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
-        $DNSDSession
+        [parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        $DNSDumpsterSession
     )
     Begin {
         if ($script:ThisModuleLoaded -eq $true) {
@@ -27,10 +27,10 @@ Function Get-PSDNSDumpsterAPIDomainInfo {
     Process {
         Try {
             Try {
-                Write-Verbose "$($FunctionName) - Processing '$($DNSDSession.body.targetip)'"
-                $ScanResults = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -Body $($DNSDSession.Body) -Method Post -WebSession $($DNSDSession.Session) -ContentType 'application/x-www-form-urlencoded' -Headers $($DNSDSession.Header)
+                Write-Verbose "$($FunctionName) - Processing '$($DNSDumpsterSession.body.targetip)'"
+                $ScanResults = Invoke-WebRequest -Uri 'https://dnsdumpster.com' -Body $($DNSDumpsterSession.Body) -Method Post -WebSession $($DNSDumpsterSession.Session) -ContentType 'application/x-www-form-urlencoded' -Headers $($DNSDumpsterSession.Header)
             } Catch {
-                Write-Error "$($FunctionName) - Unable to get results for domain '$($DNSDSession.body.targetip)' - $PSItem"
+                Write-Error "$($FunctionName) - Unable to get results for domain '$($DNSDumpsterSession.body.targetip)' - $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
@@ -38,6 +38,6 @@ Function Get-PSDNSDumpsterAPIDomainInfo {
     }
     End {
         Write-Verbose "$($FunctionName) - End."
-        Return (New-Object PSObject -Property @{ScanResults=$ScanResults;DomainName=$DNSDSession.body.targetip;})
+        Return (New-Object PSObject -Property @{ScanResults=$ScanResults;DomainName=$DNSDumpsterSession.body.targetip;DNSDumpsterSession=$DNSDumpsterSession})
     }
 }

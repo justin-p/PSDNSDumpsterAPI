@@ -122,7 +122,7 @@ task LoadModule {
         $Script:Module = Import-Module $ModuleFullPath -Force -PassThru
     }
     catch {
-        throw "Unable to load the project module: $($ModuleFullPath)"
+        throw "Unable to load the project module: $($ModuleFullPath) - $PSitem"
     }
 }
 

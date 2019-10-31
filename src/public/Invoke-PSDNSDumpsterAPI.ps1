@@ -62,7 +62,7 @@ Function Invoke-PSDNSDumpsterAPI {
                 ForEach ($DomainName in $Domains) {
                     $DomainName = $($DomainName).ToLower()
                     Write-Verbose "$($FunctionName) - Processing '$DomainName'"
-                    $OutputObject += $DomainName| New-PSDNSDumpsterAPISession | Get-PSDNSDumpsterAPIDomainInfo | Convert-PSDNSDumpsterAPIDomainInfo
+                    $OutputObject += $DomainName | New-PSDNSDumpsterAPISession | Get-PSDNSDumpsterAPIDomainInfo | Convert-PSDNSDumpsterAPIDomainInfo
                 }
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"

@@ -16,10 +16,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
     #>
     [CmdletBinding()]
     Param (
-        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
+        [parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         $DomainName,
-        [parameter(Mandatory= $true,ValueFromPipelineByPropertyName = $true)]
-        $ScanResults
+        [parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        $ScanResults,
+        [parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        $DNSDumpsterSession
     )
     Begin {
         if ($script:ThisModuleLoaded -eq $true) {
@@ -29,10 +31,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
         Write-Verbose "$($FunctionName) - Begin."
         Try {
             Try {
-                $DNSObject  = @()
-                $MXObject   = @()
-                $TXTObject  = @()
-                $HostObject = @()
+                $DNSObject   = @()
+                $MXObject    = @()
+                $TXTObject   = @()
+                $HostObject  = @()
+                $ExcelObject = @()
+                $GraphObject = @()
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
@@ -43,12 +47,14 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
         Write-Verbose "$($FunctionName) - Processing '$DomainName'"
         Try {
             Try {
-                Write-Debug "$($FunctionName) - Extract the tables out of the web request"
-                $tables   = @($ScanResults.ParsedHtml.getElementsByTagName("TABLE"))
-                $DNSRows  = $($tables[0]).Rows
-                $MXRows   = $($tables[1]).Rows
-                $TXTRows  = $($tables[2]).Rows
-                $HostRows = $($tables[3]).Rows
+                Write-Debug "$($FunctionName) - Extract info out of the web request"
+                $tables    = @($ScanResults.ParsedHtml.getElementsByTagName("TABLE"))
+                $a         = @($ScanResults.ParsedHtml.getElementsByTagName("A"))
+                $DNSRows   = $($tables[0]).Rows
+                $MXRows    = $($tables[1]).Rows
+                $TXTRows   = $($tables[2]).Rows
+                $HostRows  = $($tables[3]).Rows
+                $ExcelHref = $a[24]
             }
             Catch {
                 Write-Error "$($FunctionName) - Unable to parse '`$ScanResults' - $PSItem"
@@ -111,11 +117,16 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
             }
+            Try {
+                $ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $("https://dnsdumpster.com/" + "$($ExcelHref.pathname)")
+            } Catch {
+                Write-Error "$($FunctionName) - Unable to get excel from DNSDumpster - $PSItem"
+            }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;}})
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;Excel=$ExcelObject;};DNSDumpsterSession=$DNSDumpsterSession;})
         }
 }

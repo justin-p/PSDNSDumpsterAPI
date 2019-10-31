@@ -14,7 +14,7 @@ Function New-PSDNSDumpsterAPISession {
     #>
     [CmdletBinding(SupportsShouldProcess)]
     Param (
-        [parameter(Mandatory= $true,ValueFromPipeline = $true)]
+        [parameter(Mandatory = $true, ValueFromPipeline = $true)]
         $DomainName
     )
     Begin {
@@ -40,6 +40,6 @@ Function New-PSDNSDumpsterAPISession {
     }
     End {
         Write-Verbose "$($FunctionName) - End."
-        Return $(New-Object PSObject -Property @{DNSDSession=@{Body=@{csrfmiddlewaretoken = $($login.InputFields[0].value;);targetip = $DomainName};Header=@{Referer='https://dnsdumpster.com/';};Session=$Session}})
+        Return $(New-Object PSObject -Property @{DNSDumpsterSession=@{Body=@{csrfmiddlewaretoken = $($login.InputFields[0].value;);targetip = $DomainName};Header=@{Referer='https://dnsdumpster.com/';};Session=$Session}})
     }
 }

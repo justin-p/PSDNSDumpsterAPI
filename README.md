@@ -28,7 +28,7 @@ and import the module to your session to test, but not install this module.
 
 ## Features
 
-Return the results from dnsdumpster as a PSObject.
+Return the results from dnsdumpster as a PSObject, including the domain image (stored in byte array) and excel file
 
 ## Versions
 
