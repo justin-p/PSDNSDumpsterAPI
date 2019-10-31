@@ -1,8 +1,9 @@
 # PSDNSDumpsterAPI
-[![AppveyorBuild Badge ](https://img.shields.io/appveyor/ci/justin-p/psdnsdumpsterapi?style=flat-square)](https://ci.appveyor.com/project/justin-p/psdnsdumpsterapi)
-[![Codacy Badge](https://img.shields.io/codacy/grade/aeab860a75e24a3f9c40c9defc2a01d7?style=flat-square)](https://www.codacy.com/manual/justin-p/PSDNSDumpsterAPI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justin-p/PSDNSDumpsterAPI&amp;utm_campaign=Badge_Grade)
-[![PowerShellGallery Version Badge](https://img.shields.io/powershellgallery/v/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
-[![PowerShellGallery Downloads Badge](https://img.shields.io/powershellgallery/dt/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
+![License](https://img.shields.io/github/license/justin-p/PSDNSDumpsterAPI?style=flat-square)
+[![AppveyorBuild](https://img.shields.io/appveyor/ci/justin-p/psdnsdumpsterapi?style=flat-square)](https://ci.appveyor.com/project/justin-p/psdnsdumpsterapi)
+[![CodacyGrade](https://img.shields.io/codacy/grade/aeab860a75e24a3f9c40c9defc2a01d7?style=flat-square)](https://www.codacy.com/manual/justin-p/PSDNSDumpsterAPI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justin-p/PSDNSDumpsterAPI&amp;utm_campaign=Badge_Grade)
+[![PowerShellGalleryVersion](https://img.shields.io/powershellgallery/v/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
+[![PowerShellGalleryDownloads](https://img.shields.io/powershellgallery/dt/PSDNSDumpsterAPI?style=flat-square)](https://www.powershellgallery.com/)
 
 ## Description
 
