@@ -2,26 +2,28 @@
 
 ## Description
 
-(Unofficial) PowerShell API for https://dnsdumpster.com/
+(Unofficial) PowerShell API for [htttps://www.dnsdumpster.com](https://dnsdumpster.com/)
 
 ## Introduction
+
 This module enables you to query [dnsdumpster](https://dnsdumpster.com/) from the PowerShell commandline.
 
 ## Requirements
 
 ## Installation
 
-Powershell Gallery (PS 5.0, Preferred method)
-`install-module PSDNSDumpsterAPI`
+PowerShell Gallery (PS 5.0, Preferred method)
+`install-module PSDNSDumpster`
 
 Manual Installation
-`iex (New-Object Net.WebClient).DownloadString("https://github.com/justin-p/PSDNSDumpsterAPI/raw/master/Install.ps1")`
+`iex (New-Object Net.WebClient).DownloadString("https://github.com/justin-p/PSDNSDumpster/raw/master/Install.ps1")`
 
 Or clone this repository to your local machine, extract, go to the .\releases\PSDNSDumpsterAPI directory
 and import the module to your session to test, but not install this module.
 
 ## Features
-Return the results from DNSDumpster as a PSObject.
+
+Return the results from dnsdumpster as a PSObject.
 
 ## Versions
 
@@ -40,4 +42,4 @@ Studio Code and ensure that the PowerShell extension is installed.
 
 **Author:** Justin Perdok
 
-**Website:** https://github.com/justin-p/PSDNSDumpsterAPI
+**Website:** [PSDNSDumpsterAPI](https://github.com/justin-p/PSDNSDumpsterAPI)
