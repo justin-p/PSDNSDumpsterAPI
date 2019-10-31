@@ -819,7 +819,7 @@ task PreBuildTasks {
     $BuildToolPath = Join-Path $BuildRoot $Script:BuildEnv.BuildToolFolder
     $PreBuildPath = Join-Path $BuildToolPath 'startup'
     # Dot source any pre build scripts.
-    Get-ChildItem -Path $PreBuildPath -Recurse -Filter "*.ps1" -File | Foreach {
+    Get-ChildItem -Path $PreBuildPath -Recurse -Filter "*.ps1" -File | ForEach-Object {
         Write-Description White "Dot sourcing pre-build script file: $($_.Name)" -level 2
         . $_.FullName
     }
@@ -831,7 +831,7 @@ task PostBuildTasks {
     $BuildToolPath = Join-Path $BuildRoot $Script:BuildEnv.BuildToolFolder
     $CleanupPath = Join-Path $BuildToolPath 'shutdown'
     # Dot source any post build cleanup scripts.
-    Get-ChildItem -Path $CleanupPath -Recurse -Filter "*.ps1" -File | Foreach {
+    Get-ChildItem -Path $CleanupPath -Recurse -Filter "*.ps1" -File | ForEach-Object {
         Write-Description White "Dot sourcing shutdown script file: $($_.Name)" -Level 3
         . $_.FullName
     }
