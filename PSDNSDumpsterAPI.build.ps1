@@ -739,7 +739,12 @@ task PublishPSGallery LoadBuildTools, InstallModule, {
         Import-Module -Name $CurrentModule
 
         Write-Description White "Uploading project to PSGallery: $($Script:BuildEnv.ModuleToBuild)"
-        Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $Script:BuildEnv.NuGetApiKey
+        if ($ENV:APIKEY) {
+            Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $ENV:APIKEY
+        } Else {
+            Upload-ProjectToPSGallery -Name $Script:BuildEnv.ModuleToBuild -NuGetApiKey $Script:BuildEnv.NuGetApiKey
+        }
+
     }
 
     else {

@@ -19,7 +19,4 @@ build: false
 
 #Kick off the CI/CD pipeline
 test_script:
-  - ps: . .\Build.ps1 -BuildModule
-after_test:
-  - ps: Set-Location $PWD\release\PSDNSDumpsterAPI
-  - ps: Publish-Module -Name "PSDNSDumpsterAPI" -NuGetApiKey $ENV:APIKEY
+  - ps: . .\Build.ps1 -BuildInstallTestAndPublishModule
