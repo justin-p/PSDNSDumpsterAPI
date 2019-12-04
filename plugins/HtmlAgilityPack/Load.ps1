@@ -1,0 +1,1 @@
+Import-Module (Join-Path $MyModulePath 'plugins\HtmlAgilityPack\HtmlAgilityPackModule\HtmlAgilityPackModule.psd1') -Force -Scope:Global
