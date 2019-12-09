@@ -1,60 +1,88 @@
+$DomainTestObject = 'apple.com' | New-PSDNSDumpsterAPISession | Get-PSDNSDumpsterAPIDomainInfo
+
 $doc = New-Object HtmlAgilityPack.HtmlDocument
-$doc.LoadHtml($Domain.ScanResults)
+$doc.LoadHtml($DomainTestObject.ScanResults)
+$tables = $doc.DocumentNode.SelectNodes("//table")
 
-#$tables    = @($doc.DocumentNode.SelectNodes("//table[@class='table']"))
-#$Rows      = $tables.SelectNodes('tr')
-
-#$DNSRows   = $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr")
-#$MXRows    = $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[5]")
-#$TXTRows   = $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[6]")
-#$HostRows  = $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[7]")
-#
-#$nameserver = ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[1]/td").Childnodes)[0].innertext
-#$ip         = ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[1]/td").Childnodes)[15].innertext
-#$reverse    = ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[1]/td").Childnodes)[17].innertext
-#$asn        = ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[1]/td").Childnodes)[18].innertext
-
-
-
-ForEach ($tr in ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr")).count) {
-    #$resultObject = [Ordered] @{ }
-    #$resultObject["nameserver"]
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[$tr]/td").Childnodes)[0].innertext.TrimEnd('.')
-    ##$resultObject["ip"] 
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[$tr]/td").Childnodes)[15].innertext
-    ##$resultObject["reversedns"]
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[$tr]/td").Childnodes)[17].innertext
-    ##$resultObject["asn"] 
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[$tr]/td").Childnodes)[18].innertext
-    ##$resultObject["country"] 
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr[$tr]/td").Childnodes)[20].innertext
-    ##$DNSObject +=[PSCustomObject] $resultObject
+Function Get-ResultsFromTable {
+    Param(
+        $table,
+        [switch]$dns,
+        [switch]$mx,        
+        [switch]$txt,
+        [switch]$Hosts
+    )
+    $trs =  $table.SelectNodes($($table.xpath + "/tr"))
+    $IPPattern = [Regex]::new('[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+    $resultObject = [Ordered] @{ }
+    $outputObject = @()
+    ForEach ($tr in $trs) {
+        Try { 
+            $tds         = $tr.SelectNodes($($tr.xpath + "/td"))
+            $ip          = $IPPattern.Matches($tds[1].InnerHtml).value
+            $domain      = ($tds[0].InnerText.Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"})
+            $reverse_dns = $tds[1].InnerText.Replace($IPPattern.Matches($tds[1].InnerHtml).value, '')
+            $country     = $tds[2].InnerHTML.split('>').Split('<')[4]
+            $asn         = $tds[2].InnerText.Replace($country,'')
+        } Catch {
+            #
+        }
+        if ($dns) {
+            $resultObject['nameserver'] = $domain
+            $resultObject['ip']         = $ip
+            $resultObject['reversedns'] = $reverse_dns
+            $resultObject['asn']        = $asn
+            $resultObject['country']    = $country
+            $outputObject +=[PSCustomObject] $resultObject
+        }        
+        ElseIf ($mx) {
+            $resultObject['priority']   = $domain.split(' ')[0];
+            $resultObject['mx']         = $domain.split(' ')[1];
+            $resultObject['ip']         = $ip;
+            $resultObject['reversedns'] = $reverse_dns;
+            $resultObject['asn']        = $asn;
+            $resultObject['country']    = $country;
+            $outputObject +=[PSCustomObject] $resultObject
+        }
+        ElseIf($txt) {
+            ForEach($td in $tds) {
+                $resultObject['TXTRecords'] = $td.InnerText.Replace("&quot;","`"")
+                $outputObject +=[PSCustomObject] $resultObject
+            }
+        }
+        ElseIf($Hosts) {
+            if ($domain.getType().Name -ne 'string') {
+                $services    = @(($domain.Trim().split([Environment]::NewLine) | Where-Object {$_ -notmatch "^$"}))[(1..$($domain.Trim().split([Environment]::NewLine.Trim()) | Where-Object {$_ -notmatch "^$"}).count)]
+                $count = 1
+                $services = ForEach ($service in $services) {
+                    if ($count % 2 -eq 1 ) {
+                        $service + " " + $services[$count]
+                    }
+                    $count++
+                }
+                $host_domain = $domain[0]
+            } Else {
+                $host_domain = $domain
+                $services = $null
+            }
+            $resultObject['host']       = $host_domain ;
+            $resultObject['services']   = $services;
+            $resultObject['ip']         = $ip;
+            $resultObject['reversedns'] = $reverse_dns;
+            $resultObject['asn']        = $asn;
+            $resultObject['country']    = $country;
+            $outputObject +=[PSCustomObject] $resultObject
+        }
+    }
+    $outputObject
 }
 
-ForEach ($tr in ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[4]/table[1]/tr").count)) {
-    #$resultObject = [Ordered] @{ }
-    #$resultObject["priority"]   
-    #$resultObject["mx"]         
-    #$resultObject["ip"]         
-    #$resultObject["reversedns"] 
-    #$resultObject["asn"]        
-    #$resultObject["country"]    
-    #$MXObject +=[PSCustomObject] $resultObject
-}
-
-ForEach ($tr in ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[6]/table[1]/tr").count)) {
-    $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[6]/table[1]/tr[$tr]/td").innertext
-}
-
-ForEach ($tr in ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[7]/table[1]/tr").count)) {
-    #$resultObject = [Ordered] @{ }
-    #$resultObject["host"]       
-    ($doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[7]/table[1]/tr[$tr]/td").Childnodes)[0].innertext
-    #$resultObject["services"]
-    #$resultObject["ip"]         
-    #$resultObject["reversedns"] 
-    $doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[1]/div[1]/section[1]/div[1]/div[3]/div[1]/div[7]/table[1]/tr[$tr]/td")
-    #$resultObject["asn"]        
-    #$resultObject["country"]    
-    #$HostObject +=[PSCustomObject] $resultObject
-}
+$DNSObject = Get-ResultsFromTable -table $tables[0] -dns
+$MXObject = Get-ResultsFromTable -table $tables[1] -mx
+$TXTObject = Get-ResultsFromTable -table $tables[2] -txt
+$HostObject = Get-ResultsFromTable -table $tables[3] -hosts
+$out =  $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;}})
+$out.DNSDumpsterObject.DNS | ft -AutoSize
+$out.DNSDumpsterObject.MX | ft -AutoSize
+$out.DNSDumpsterObject.TXT | ft -AutoSize
+$out.DNSDumpsterObject.Host | ft -AutoSize
