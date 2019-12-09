@@ -55,7 +55,7 @@ $domaininfo | ForEach-Object {$_.DNSDumpsterObject.Excel.ContentInBytes | Set-Co
 0.0.1 - Initial Release  
 0.0.2 - Alpha build  
 0.0.3 - Replaced parsing with html agility pack  
-0.0.4 - Added back excel and update image to use html agility pack  
+0.0.4 - Added back missing functionalities
 
 ## Contribute
 
