@@ -7,9 +7,9 @@ version: 0.0.{build}
 branches:
   only:
   - master
-skip_non_tags: false
+skip_non_tags: true
 skip_commits:
-  message: /updated readme.*|update readme.*s/
+  message: /updated README.*|update README.*|updated readme.*|update readme.*s/
 
 environment:
   APIKEY:
