@@ -1,9 +1,9 @@
 Function Get-PSDNSDumpsterAPIContent {
     <#
     .SYNOPSIS
-    Get domain info contact, such as excel or png, from DNSDumpster
+    Get domain info content, such as excel or png, from DNSDumpster
     .DESCRIPTION
-    Get domain info contact, such as excel or png, from DNSDumpster
+    Get domain info content, such as excel or png, from DNSDumpster
     .PARAMETER URL
     URL of excel: 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
     .EXAMPLE
