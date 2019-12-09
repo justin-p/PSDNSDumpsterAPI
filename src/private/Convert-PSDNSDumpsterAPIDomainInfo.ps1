@@ -31,8 +31,8 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
         Write-Verbose "$($FunctionName) - Begin."
         Try {
             Try {
-                #$ExcelObject = @()
-                } Catch {
+
+            } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }
         } Catch {
@@ -44,6 +44,9 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
             $doc = New-Object HtmlAgilityPack.HtmlDocument
             $doc.LoadHtml($ScanResults)
             $tables = $doc.DocumentNode.SelectNodes("//table")
+            $a = $doc.DocumentNode.SelectNodes("//a").Attributes.Value
+            $PNGLink = "https://dnsdumpster.com" + $($a | Where-Object {$_ -match 'png'})
+            $ExcelLink = "https://dnsdumpster.com" + $($a | Where-Object {$_ -match '.xlsx'})
             Try {
                 $DNSObject = Get-PSDNSDumpsterAPIResultsFromTable -Table $tables[0] -dns
             } Catch {
@@ -65,12 +68,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 Write-Error "$($FunctionName) - Unable to parse Hosts Table - $PSItem"
             }
             Try {
-                $ImageObject = Get-PSDNSDumpsterAPIImage -URL $("https://dnsdumpster.com/static/map/" + $DomainName + ".png")
+                $ImageObject = Get-PSDNSDumpsterAPIContent -URL $PNGLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
             }
             Try {
-                #$ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $("https://dnsdumpster.com/" + "$($ExcelHref.pathname)")
+                $ExcelObject = Get-PSDNSDumpsterAPIContent -URL $ExcelLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get excel from DNSDumpster - $PSItem"
             }
@@ -79,6 +82,6 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
         }
     } End {
         Write-Verbose "$($FunctionName) - End."
-            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;};DNSDumpsterSession=$DNSDumpsterSession;})
+            Return $(New-Object psobject -Property @{DomainName=$DomainName;DNSDumpsterObject=@{DNS=$DNSObject;MX=$MXObject;TXT=$TXTObject;Host=$HostObject;Image=$ImageObject;Excel=$ExcelObject};DNSDumpsterSession=$DNSDumpsterSession;})
     }
 }

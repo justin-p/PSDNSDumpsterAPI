@@ -39,15 +39,29 @@ Use the magic of powershell objects to comb through the data.
 
 ![ShowDomainInfo](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/ShowDomainInfo.gif)
 
-Image of the domain is added to the object as a byte array. Use Set-Content to save the image to disk.
+The image and the Excel file of the domain is added to the PSObject as a base64 encoded byte array. Use `[System.Convert]::FromBase64String()` and `Set-Content` to save the data to disk.
+
+```powershell
+[System.Convert]::FromBase64String($domaininfo[0].DNSDumpsterObject.Image.ContentInBytesBase64Encoded) | Set-Content -Encoding Byte -Path "out.png"
+```
 
 ![SaveDomainImg](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/SaveDomainImg.gif)
 
+Saving this in bulk is really easy !
+
+```powershell
+$DomainInfo | ForEach-Object {[System.Convert]::FromBase64String($_.DNSDumpsterObject.Excel.ContentInBytesBase64Encoded) | Set-Content -Encoding Byte -Path $($_.DomainName + ".xlsx")}
+```
+
+![BulkExcel](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/BulkExcel.gif)
+
 ## Versions
 
-0.0.1 - Initial Release  
-0.0.2 - Alpha build  
-
+0.0.1 - Initial Release.  
+0.0.2 - Alpha build.  
+0.0.3 - Replaced parsing with html agility pack.  
+0.0.4 - Added back missing functionalities. Data is now stored in encoded with Base64 instead of a 'plain' Byte Array.  
+ 
 ## Contribute
 
 Please feel free to contribute by opening new issues or providing pull requests.
