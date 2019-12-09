@@ -68,12 +68,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 Write-Error "$($FunctionName) - Unable to parse Hosts Table - $PSItem"
             }
             Try {
-                $ImageObject = Get-PSDNSDumpsterAPIImage -URL $PNGLink
+                $ImageObject = Get-PSDNSDumpsterAPIContent -URL $PNGLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
             }
             Try {
-                $ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $ExcelLink
+                $ExcelObject = Get-PSDNSDumpsterAPIContent -URL $ExcelLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get excel from DNSDumpster - $PSItem"
             }

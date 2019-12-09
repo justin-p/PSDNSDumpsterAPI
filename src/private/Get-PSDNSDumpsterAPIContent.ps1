@@ -1,13 +1,13 @@
-Function Get-PSDNSDumpsterAPIImage {
+Function Get-PSDNSDumpsterAPIContent {
     <#
     .SYNOPSIS
-    Get domain info image from DNSDumpster
+    Get domain info contact, such as excel or png, from DNSDumpster
     .DESCRIPTION
-    Get domain info image from DNSDumpster
+    Get domain info contact, such as excel or png, from DNSDumpster
     .PARAMETER URL
-    URL of image: 'https://dnsdumpster.com/static/map/justin-p.me.png'
+    URL of excel: 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
     .EXAMPLE
-    et-PSDNSDumpsterAPIImage -URL 'https://dnsdumpster.com/static/map/justin-p.me.png'
+    Get-PSDNSDumpsterAPIContent -URL 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
     .NOTES
     Author: Justin Perdok, https://justin-p.me.
     Project: https://github.com/justin-p/PSDNSDumpsterAPI
@@ -41,7 +41,7 @@ Function Get-PSDNSDumpsterAPIImage {
                 If ($Content.GetType().Name -ne 'Byte[]') {
                     $Content = [System.Text.Encoding]::UTF8.GetBytes($Content)
                 }
-                $OutputObject   += $(New-Object PSObject -Property @{url=$URL;ContentInBytes=$Content;})
+                $OutputObject += $(New-Object PSObject -Property @{url=$URL;ContentInBytesBase64Encoded=[System.Convert]::ToBase64String($Content);})
             } Catch {
                 Write-Error "$($FunctionName) - $PSItem"
             }

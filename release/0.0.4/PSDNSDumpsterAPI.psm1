@@ -81,12 +81,12 @@ function Convert-PSDNSDumpsterAPIDomainInfo {
                 Write-Error "$($FunctionName) - Unable to parse Hosts Table - $PSItem"
             }
             Try {
-                $ImageObject = Get-PSDNSDumpsterAPIImage -URL $PNGLink
+                $ImageObject = Get-PSDNSDumpsterAPIContent -URL $PNGLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get image from DNSDumpster - $PSItem"
             }
             Try {
-                $ExcelObject = Get-PSDNSDumpsterAPIExcel -URL $ExcelLink
+                $ExcelObject = Get-PSDNSDumpsterAPIContent -URL $ExcelLink
             } Catch {
                 Write-Error "$($FunctionName) - Unable to get excel from DNSDumpster - $PSItem"
             }
@@ -241,6 +241,71 @@ function Get-CallerPreference {
     }
 }
 
+Function Get-PSDNSDumpsterAPIContent {
+    <#
+    .SYNOPSIS
+    Get domain info contact, such as excel or png, from DNSDumpster
+    .DESCRIPTION
+    Get domain info contact, such as excel or png, from DNSDumpster
+    .PARAMETER URL
+    URL of excel: 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
+    .EXAMPLE
+    Get-PSDNSDumpsterAPIContent -URL 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
+    .NOTES
+    Author: Justin Perdok, https://justin-p.me.
+    Project: https://github.com/justin-p/PSDNSDumpsterAPI
+    #>
+    [CmdletBinding()]
+    param(
+        [parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [System.Uri]$URL
+    )
+    Begin {
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName) - Begin."
+        Try {
+            Try {
+                $OutputObject=@()
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+    }
+    Process {
+        Write-Verbose "$($FunctionName) - Processing $URL"
+        Try {
+            Try {
+                $Content = $(Invoke-WebRequest $URL).content
+                If ($Content.GetType().Name -ne 'Byte[]') {
+                    $Content = [System.Text.Encoding]::UTF8.GetBytes($Content)
+                }
+                $OutputObject += $(New-Object PSObject -Property @{url=$URL;ContentInBytesBase64Encoded=[System.Convert]::ToBase64String($Content);})
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+    }
+    End {
+        Write-Verbose "$($FunctionName) - End."
+        Try {
+            Try {
+                Return $OutputObject
+            } Catch {
+                Write-Error "$($FunctionName) - $PSItem"
+            }
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+    }
+}
+
 Function Get-PSDNSDumpsterAPIDomainInfo {
     <#
     .SYNOPSIS
@@ -282,136 +347,6 @@ Function Get-PSDNSDumpsterAPIDomainInfo {
     End {
         Write-Verbose "$($FunctionName) - End."
         Return (New-Object PSObject -Property @{ScanResults=$ScanResults;DomainName=$DNSDumpsterSession.body.targetip;DNSDumpsterSession=$DNSDumpsterSession})
-    }
-}
-
-Function Get-PSDNSDumpsterAPIExcel {
-    <#
-    .SYNOPSIS
-    Get domain info excel from DNSDumpster
-    .DESCRIPTION
-    Get domain info excel from DNSDumpster
-    .PARAMETER URL
-    URL of excel: 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
-    .EXAMPLE
-    et-PSDNSDumpsterAPIImage -URL 'https://dnsdumpster.com/static/xls/justin-p.me-201910311359.xlsx'
-    .NOTES
-    Author: Justin Perdok, https://justin-p.me.
-    Project: https://github.com/justin-p/PSDNSDumpsterAPI
-    #>
-    [CmdletBinding()]
-    param(
-        [parameter(Mandatory = $true, ValueFromPipeline = $true)]
-        [System.Uri]$URL
-    )
-    Begin {
-        if ($script:ThisModuleLoaded -eq $true) {
-            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
-        }
-        $FunctionName = $MyInvocation.MyCommand.Name
-        Write-Verbose "$($FunctionName) - Begin."
-        Try {
-            Try {
-                $OutputObject=@()
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
-    }
-    Process {
-        Write-Verbose "$($FunctionName) - Processing $URL"
-        Try {
-            Try {
-                $Content = $(Invoke-WebRequest $URL).content
-                If ($Content.GetType().Name -ne 'Byte[]') {
-                    $Content = [System.Text.Encoding]::UTF8.GetBytes($Content)
-                }
-                $OutputObject += $(New-Object PSObject -Property @{url=$URL;ContentInBytes=$Content;})
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
-    }
-    End {
-        Write-Verbose "$($FunctionName) - End."
-        Try {
-            Try {
-                Return $OutputObject
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
-    }
-}
-
-Function Get-PSDNSDumpsterAPIImage {
-    <#
-    .SYNOPSIS
-    Get domain info image from DNSDumpster
-    .DESCRIPTION
-    Get domain info image from DNSDumpster
-    .PARAMETER URL
-    URL of image: 'https://dnsdumpster.com/static/map/justin-p.me.png'
-    .EXAMPLE
-    et-PSDNSDumpsterAPIImage -URL 'https://dnsdumpster.com/static/map/justin-p.me.png'
-    .NOTES
-    Author: Justin Perdok, https://justin-p.me.
-    Project: https://github.com/justin-p/PSDNSDumpsterAPI
-    #>
-    [CmdletBinding()]
-    param(
-        [parameter(Mandatory = $true, ValueFromPipeline = $true)]
-        [System.Uri]$URL
-    )
-    Begin {
-        if ($script:ThisModuleLoaded -eq $true) {
-            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
-        }
-        $FunctionName = $MyInvocation.MyCommand.Name
-        Write-Verbose "$($FunctionName) - Begin."
-        Try {
-            Try {
-                $OutputObject=@()
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
-    }
-    Process {
-        Write-Verbose "$($FunctionName) - Processing $URL"
-        Try {
-            Try {
-                $Content = $(Invoke-WebRequest $URL).content
-                If ($Content.GetType().Name -ne 'Byte[]') {
-                    $Content = [System.Text.Encoding]::UTF8.GetBytes($Content)
-                }
-                $OutputObject   += $(New-Object PSObject -Property @{url=$URL;ContentInBytes=$Content;})
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
-    }
-    End {
-        Write-Verbose "$($FunctionName) - End."
-        Try {
-            Try {
-                Return $OutputObject
-            } Catch {
-                Write-Error "$($FunctionName) - $PSItem"
-            }
-        } Catch {
-            $PSCmdlet.ThrowTerminatingError($PSItem)
-        }
     }
 }
 
