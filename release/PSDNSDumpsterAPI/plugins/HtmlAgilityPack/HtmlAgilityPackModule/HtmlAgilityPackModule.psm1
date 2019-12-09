@@ -3,8 +3,8 @@
 <#
  Put all code that must be run prior to function dot sourcing here.
 
- This is a good place for module variables as well. The only rule is that no 
- variable should rely upon any of the functions in your module as they 
+ This is a good place for module variables as well. The only rule is that no
+ variable should rely upon any of the functions in your module as they
  will not have been loaded yet. Also, this file cannot be completely
  empty. Even leaving this comment is good enough.
 #>
@@ -67,7 +67,7 @@ function Get-CallerPreference {
     begin {
         $filterHash = @{}
     }
-    
+
     process {
         if ($null -ne $Name)
         {
@@ -117,9 +117,9 @@ function Get-CallerPreference {
         foreach ($entry in $vars.GetEnumerator()) {
             if (([string]::IsNullOrEmpty($entry.Value) -or -not $Cmdlet.MyInvocation.BoundParameters.ContainsKey($entry.Value)) -and
                 ($PSCmdlet.ParameterSetName -eq 'AllVariables' -or $filterHash.ContainsKey($entry.Name))) {
-                
+
                 $variable = $Cmdlet.SessionState.PSVariable.Get($entry.Key)
-                
+
                 if ($null -ne $variable) {
                     if ($SessionState -eq $ExecutionContext.SessionState) {
                         Set-Variable -Scope 1 -Name $variable.Name -Value $variable.Value -Force -Confirm:$false -WhatIf:$false
@@ -135,7 +135,7 @@ function Get-CallerPreference {
             foreach ($varName in $filterHash.Keys) {
                 if (-not $vars.ContainsKey($varName)) {
                     $variable = $Cmdlet.SessionState.PSVariable.Get($varName)
-                
+
                     if ($null -ne $variable)
                     {
                         if ($SessionState -eq $ExecutionContext.SessionState)
@@ -157,20 +157,26 @@ function Remove-HtmlAgilityPackDll
 {
     <#
     .SYNOPSIS
-        Unload the HtmlAgilityPack dlls from memory.        
+        Unload the HtmlAgilityPack dlls from memory.
     .DESCRIPTION
         Unload the HtmlAgilityPack dlls from memory.
     .EXAMPLE
         Remove-HtmlAgilityPackDll
     #>
+    [CmdletBinding(SupportsShouldProcess = $true)]
+    Param(
+
+    )
     if ( Get-HtmlAgilityPackDllLoadState ) {
         try {
-            Get-Module | Where-Object {($_.Name -eq 'HtmlAgilityPack')} | ForEach-Object {
-                Write-Host "Removing Nested Module $($_.Name)"
-                Remove-Module $_
+            if ($PSCmdlet.ShouldProcess('remove HtmlAgilityPack')) {
+                Get-Module | Where-Object {($_.Name -eq 'HtmlAgilityPack')} | ForEach-Object {
+                    Write-Output "Removing Nested Module $($_.Name)"
+                    Remove-Module $_
+                }
             }
         }
-        catch { 
+        catch {
             Write-Warning "Unable to uninitialize module."
         }
     }
@@ -229,9 +235,9 @@ $null = Register-EngineEvent -SourceIdentifier ( [System.Management.Automation.P
 $ThisModuleLoaded = $true
 
 try {
-    $DotNetInstalled = (Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse | 
-        Get-ItemProperty -name Version -ea 0 | 
-        Where-Object { $_.PSChildName -match '^(?!S)\p{L}'} | 
+    $DotNetInstalled = (Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+        Get-ItemProperty -name Version -ea 0 |
+        Where-Object { $_.PSChildName -match '^(?!S)\p{L}'} |
         Select-Object @{n='version';e={[decimal](($_.Version).Substring(0,3))}} -Unique |
         Sort-Object -Descending | Select-Object -First 1).Version
 }
@@ -249,7 +255,7 @@ else {
 }
 
 try {
-    #Write-Host "Attempting to import $($__dllPath)..."
+    #Write-Output "Attempting to import $($__dllPath)..."
     Import-Module -Name $__dllPath -ErrorAction Stop
 }
 catch {
@@ -260,7 +266,7 @@ $Logger = $null
 $HtmlAgilityPackConfig = New-HtmlAgilityPackConfig
 
 #region Module Cleanup
-$ExecutionContext.SessionState.Module.OnRemove = {Remove-HtmlAgilityPackDll} 
+$ExecutionContext.SessionState.Module.OnRemove = {Remove-HtmlAgilityPackDll}
 $null = Register-EngineEvent -SourceIdentifier ( [System.Management.Automation.PsEngineEvent]::Exiting ) -Action {Remove-HtmlAgilityPackDll}
 #endregion Module Cleanup
 
