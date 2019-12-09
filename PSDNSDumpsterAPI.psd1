@@ -12,7 +12,7 @@
 RootModule = 'PSDNSDumpsterAPI.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.2'
+ModuleVersion = '0.0.3'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -51,7 +51,7 @@ PowerShellVersion = '5.1'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
+# RequiredModules = @('')
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -116,7 +116,7 @@ PrivateData = @{
         # RequireLicenseAcceptance = $false
 
         # External dependent modules of this module
-        # ExternalModuleDependencies = @()
+        # ExternalModuleDependencies = @('')
 
     } # End of PSData hashtable
 

@@ -16,7 +16,7 @@ if ((Get-Variable 'BuildEnv' -ErrorAction:SilentlyContinue) -eq $null) {
         ForceInstallModule = $False
         Encoding = 'utf8'
         ModuleToBuild = 'PSDNSDumpsterAPI'
-        ModuleVersion = '0.0.2'
+        ModuleVersion = '0.0.3'
         ModuleWebsite = 'https://github.com/justin-p/PSDNSDumpsterAPI'
         ModuleCopyright = "(c) $((get-date).Year.ToString()) Justin Perdok. All rights reserved."
         ModuleLicenseURI = 'https://github.com/justin-p/PSDNSDumpsterAPI/LICENSE.md'
