@@ -57,11 +57,11 @@ $DomainInfo | ForEach-Object {[System.Convert]::FromBase64String($_.DNSDumpsterO
 
 ## Versions
 
-0.0.1 - Initial Release.
-0.0.2 - Alpha build.
-0.0.3 - Replaced parsing with html agility pack.
-0.0.4 - Added back missing functionalities. Data is now stored in encoded with Base64 instead of a 'plain' Byte Array.
-
+0.0.1 - Initial Release.  
+0.0.2 - Alpha build.  
+0.0.3 - Replaced parsing with html agility pack.  
+0.0.4 - Added back missing functionalities. Data is now stored in encoded with Base64 instead of a 'plain' Byte Array.  
+ 
 ## Contribute
 
 Please feel free to contribute by opening new issues or providing pull requests.
