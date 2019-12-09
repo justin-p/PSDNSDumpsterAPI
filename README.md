@@ -39,14 +39,23 @@ Use the magic of powershell objects to comb through the data.
 
 ![ShowDomainInfo](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/ShowDomainInfo.gif)
 
-Image of the domain is added to the object as a byte array. Use Set-Content to save the image to disk.
+The image of the domain and the Excel is added to the object as a byte array. Use Set-Content to save the image to disk.
 
 ![SaveDomainImg](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/SaveDomainImg.gif)
 
+Saving this in bulk is really easy !
+
+```powershell
+$domaininfo | ForEach-Object {$_.DNSDumpsterObject.Excel.ContentInBytes | Set-Content -Encoding Byte -Path $($_.DomainName + ".xlsx")}
+```
+![BulkExcel](https://github.com/justin-p/PSDNSDumpsterAPI/blob/master/_img/BulkExcel.gif)
+
 ## Versions
 
-0.0.1 - Initial Release  
-0.0.2 - Alpha build  
+0.0.1 - Initial Release
+0.0.2 - Alpha build
+0.0.3 - Replaced parsing with html agility pack
+0.0.4 - Added back excel and update image to use html agility pack
 
 ## Contribute
 
